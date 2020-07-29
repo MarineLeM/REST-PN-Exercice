@@ -26,21 +26,31 @@ app.use(function(req, res, next) {
 let recipes = [
     { id:0, name: 'Spaghetti Bolognese', ingredients:["onion", "spaghetti", "beef", "tomato sauce"], purchasePrice:30, sellingPrice:50},
     { id:1, name: 'Chicken Burger', ingredients:["onion", "tomato", "chicken", "bread", "creamy sauce", "cheese"], purchasePrice:50, sellingPrice:100},
-    { id:2, name: 'Chicken curry with rice', ingredients:["rice", "chicken", "salt", "curry pasta"], purchasePrice:45, sellingPrince:70},
+    { id:2, name: 'Chicken curry with rice', ingredients:["rice", "chicken", "salt", "curry pasta"], purchasePrice:45, sellingPrice:70},
     { id:3, name: 'Pizza with peppers', ingredients:["pasta","onion", "peppers", "ham", "tomato sauce", "cheese"], purchasePrice:80, sellingPrice:110}
 ]
 
 // Question 1 : As a manager you want to fetch all the recipes. 
 // Create a HTTP Request :
+app.get('/recipes',(req, res) => {
+    res.json(recipes);
+})
 
 
 // Question 2 : As a manager you want to get only one recipe depends on his id.
 // Create a HTTP Request :
-
+app.get('/recipes/:recipesId', (req, res) => {
+    res.json(recipes[req.params.recipesId])
+})
 
 // Question 3 : As a manager you want to modify the selling price of only one recipe.
 // Create a HTTP Request :
-
+app.put('/recipes/:recipesId', (req, res) => {
+    
+    res.json(recipes[req.params.recipesId])
+    res.json(recipes[req.body.sellingPrice])
+    // console.log(req.body.sellingPrice)
+})
 
 // Question 4 : As a manager you want to delete one recipe from the recipes list
 // Create a HTTP Request :

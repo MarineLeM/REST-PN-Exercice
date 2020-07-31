@@ -1,14 +1,14 @@
 const express = require('express')
 const app = express()
-const port = 3436
-const bodyParser= require('body-parser')
+const port = 5050
+const bodyParser = require('body-parser')
 
 //
 // Requirement for set up the exercise
 //
 app.use(bodyParser.json()); // parse requests of content-type - application/json
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
@@ -24,15 +24,15 @@ app.use(function(req, res, next) {
 // ------------------------------
 
 let recipes = [
-    { id:0, name: 'Spaghetti Bolognese', ingredients:["onion", "spaghetti", "beef", "tomato sauce"], purchasePrice:30, sellingPrice:50},
-    { id:1, name: 'Chicken Burger', ingredients:["onion", "tomato", "chicken", "bread", "creamy sauce", "cheese"], purchasePrice:50, sellingPrice:100},
-    { id:2, name: 'Chicken curry with rice', ingredients:["rice", "chicken", "salt", "curry pasta"], purchasePrice:45, sellingPrice:70},
-    { id:3, name: 'Pizza with peppers', ingredients:["pasta","onion", "peppers", "ham", "tomato sauce", "cheese"], purchasePrice:80, sellingPrice:110}
+    { id: 0, name: 'Spaghetti Bolognese', ingredients: ["onion", "spaghetti", "beef", "tomato sauce"], purchasePrice: 30, sellingPrice: 50 },
+    { id: 1, name: 'Chicken Burger', ingredients: ["onion", "tomato", "chicken", "bread", "creamy sauce", "cheese"], purchasePrice: 50, sellingPrice: 100 },
+    { id: 2, name: 'Chicken curry with rice', ingredients: ["rice", "chicken", "salt", "curry pasta"], purchasePrice: 45, sellingPrice: 70 },
+    { id: 3, name: 'Pizza with peppers', ingredients: ["pasta", "onion", "peppers", "ham", "tomato sauce", "cheese"], purchasePrice: 80, sellingPrice: 110 }
 ]
 
 // Question 1 : As a manager you want to fetch all the recipes. 
 // Create a HTTP Request :
-app.get('/recipes',(req, res) => {
+app.get('/recipes', (req, res) => {
     res.json(recipes);
 })
 
@@ -46,24 +46,63 @@ app.get('/recipes/:recipesId', (req, res) => {
 // Question 3 : As a manager you want to modify the selling price of only one recipe.
 // Create a HTTP Request :
 app.put('/recipes/:recipesId', (req, res) => {
+    let resId = req.params.recipesId
+    let recipe = recipes.find(recipes => {
+        return recipes.id == resId;
+    })
+    recipe.sellingPrice = req.body.price;
+    res.json(recipe)
     
-    res.json(recipes[req.params.recipesId])
-    res.json(recipes[req.body.sellingPrice])
+    // res.json(recipes[req.params.recipesId])
+    // res.json(recipes[req.body.sellingPrice])
     // console.log(req.body.sellingPrice)
 })
 
+// app.put('/recipes/:id', (req, res) => {
+//     let resId = req.params.id;
+//     let newPrice = req.body.price;
+
+//     let recipe = recipes.find(recipes => {
+//         return recipes.id == resId
+//     })
+//     newPrice = recipes.sellingPrice;
+//     res.json(recipe)
+// })
+
+
+
+
 // Question 4 : As a manager you want to delete one recipe from the recipes list
 // Create a HTTP Request :
-
+app.delete('/recipes/:recipesId', (req, res) => {
+    let resId = req.params.recipesId;
+    let recipe = recipes.findIndex(recipes => {
+        return recipes.id == resId;
+    })
+    recipes.splice(recipe,1);
+    res.json(recipes)
+})
 
 // Question 5 : As a manager you want to add a new recipe in the recipes list.
 // Create a HTTP Request :
-
+app.post('/recipes', (req, res) => {
+    let addRecipe = req.body;
+    recipes.push(addRecipe);
+    res.json(recipes)
+})
 
 // Question 6 : As a manager you want to get all the recipes which contains a special ingredients. 
 // For example you want to know which recipe contains cheese.
 // Create a HTTP Request :
-
+app.get('/recipes/:ingname', (req, res) => {
+    let name = req.params.ingName;
+    let recipe = recipes.filter(recipes => {
+        return recipes.ingredients == name;
+    })
+    console.log(recipe)
+    res.json(recipe)
+    
+})
 
 // Question 7 : As a manager you want to get all the recipes' name. 
 // For example he want to know which recipe contains cheese.

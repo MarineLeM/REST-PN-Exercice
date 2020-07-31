@@ -53,24 +53,7 @@ app.put('/recipes/:recipesId', (req, res) => {
     recipe.sellingPrice = req.body.price;
     res.json(recipe)
     
-    // res.json(recipes[req.params.recipesId])
-    // res.json(recipes[req.body.sellingPrice])
-    // console.log(req.body.sellingPrice)
 })
-
-// app.put('/recipes/:id', (req, res) => {
-//     let resId = req.params.id;
-//     let newPrice = req.body.price;
-
-//     let recipe = recipes.find(recipes => {
-//         return recipes.id == resId
-//     })
-//     newPrice = recipes.sellingPrice;
-//     res.json(recipe)
-// })
-
-
-
 
 // Question 4 : As a manager you want to delete one recipe from the recipes list
 // Create a HTTP Request :

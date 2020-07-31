@@ -79,11 +79,14 @@ app.post('/recipes', (req, res) => {
 // Create a HTTP Request :
 app.get('/recipes/:ingname', (req, res) => {
     let name = req.params.ingName;
-    let recipe = recipes.filter(recipes => {
-        return recipes.ingredients == name;
+    let recipeName = recipes.filter(recipes => {
+        recipes.find(recipes => {
+            return recipes.ingredients == name;
+        })
     })
+    
     console.log(recipe)
-    res.json(recipe)
+    res.json(recipeName)
     
 })
 

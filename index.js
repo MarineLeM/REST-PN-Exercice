@@ -70,30 +70,41 @@ app.delete('/recipes/:recipesId', (req, res) => {
 // Create a HTTP Request :
 app.post('/recipes', (req, res) => {
     let addRecipe = req.body;
-    recipes.push(addRecipe);
+    let id = recipes[recipes.length -1].id +1;
+    startAdded = {'id':id , ...addRecipe};
+    recipes.push(startAdded);
     res.json(recipes)
 })
 
 // Question 6 : As a manager you want to get all the recipes which contains a special ingredients. 
 // For example you want to know which recipe contains cheese.
 // Create a HTTP Request :
-app.get('/recipes/:ingname', (req, res) => {
-    let name = req.params.ingName;
-    let recipeName = recipes.filter(recipes => { 
-        recipes.find(recipes => {
-            return recipes.ingredients == name;
-        })
+app.get('/recipes/re/:name', (req, res) => {
+    let ingname = req.params.name;
+    let special=[];
+    recipes.forEach(recipe => {
+        if (recipe.ingredients.includes(ingname)){ 
+            special.push(recipe)
+        }
+          
     })
-    
-    console.log(recipe)
-    res.json(recipeName)
-    
+    // console.log(recipe)
+     res.json(special)  
 })
 
 // Question 7 : As a manager you want to get all the recipes' name. 
 // For example he want to know which recipe contains cheese.
 // Create a HTTP Request :
-
+app.get('/recipes/f/:recipeName', (req, res) => {
+    let ingName = req.params.recipeName;
+    let resName = [];
+    recipes.forEach(recipe => {
+        if(recipe.ingredients.includes(ingName)){
+            resName.push("name: " + recipe.name)
+        }
+    })
+    res.json(resName)
+})
 
 //
 // End of the exercice
